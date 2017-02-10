@@ -19,7 +19,9 @@ app.use(function(req, res, next) {
  * DATABASE *
  ************/
 
-// var db = require('./models');
+ var db = require('./models');
+
+ var mongoose = require('mongoose');
 
 /**********
  * ROUTES *
@@ -29,6 +31,8 @@ app.use(function(req, res, next) {
 // i.e. `/images`, `/scripts`, `/styles`
 app.use(express.static('public'));
 
+//Body-parser:
+app.use(bodyParser.urlencoded({ extended: true }));
 /*
  * HTML Endpoints
  */
@@ -41,6 +45,71 @@ app.get('/', function homepage(req, res) {
 /*
  * JSON API Endpoints
  */
+
+ // get all kingdoms
+ app.get('/api/kingdoms', function (req, res) {
+   // send all books as JSON response
+   db.Kingdom.find()
+     .populate('domain')
+     .exec(function(err, kingdoms){
+     if(err){return console.log("index error: "+err);}
+     res.json(kingdoms);
+   });
+});
+
+//get all domains
+  app.get('/api/domains', function(req, res) {
+    db.Domain.find({}, function(err, domains){
+      if(err){return console.log("index error: "+err);}
+      res.json(domains);
+    });
+  })
+
+ // get one kingdom
+ app.get('/api/kingdoms/:id', function (req, res) {
+   db.Kingdom.findById(req.params.id)
+    .populate('domain')
+    .exec(function(err, kingdom){
+     if(err){return console.log(err);}
+     res.json(kingdom);
+   });
+ });
+
+ // get one domain
+ app.get('/api/domains/:id', function (req, res) {
+   db.Domain.findById(req.params.id, function(err, domain){
+     if(err){return console.log(err);}
+     res.json(domain);
+   })
+ })
+
+ // create new domain
+ app.post('/api/domains', function (req, res) {
+   var domainName = req.body.name;
+   var domainCharacteristics = req.body.characteristics;
+   var domainImage = req.body.image;
+   db.Domain.create({
+     name: domainName,
+     characteristics: domainCharacteristics,
+     image: domainImage
+   }, function(err, domain){
+     if(err){return console.log(err);}
+     res.json(domain);
+   });
+ });
+
+ // update kingdom
+ app.put('/api/kingdoms/:id', function(req,res){
+ // get book id from url params (`req.params`)
+
+ });
+
+ // delete kingdom
+ app.delete('/api/kingdoms/:id', function (req, res) {
+   // get book id from url params (`req.params`)
+
+ });
+
 
 app.get('/api', function apiIndex(req, res) {
   // TODO: Document all your api endpoints below as a simple hardcoded JSON object.
