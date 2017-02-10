@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var DomainSchema = new Schema({
+  name: String,
   characteristics: String,
   image: String,
 });
