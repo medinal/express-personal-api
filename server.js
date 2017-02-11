@@ -154,7 +154,7 @@ app.get('/', function homepage(req, res) {
          db.Kingdom.findByIdAndUpdate(kingdomId, {name: kingdomName,
            characteristics: kingdomCharacteristics,
            image: kingdomImage,
-           domain: domainId}, function(err, kingdom){
+           domain: domainId}, {new: true}, function(err, kingdom){
              if(err){return console.log(err);}
              db.Kingdom.findById(kingdomId)
               .populate('domain')
@@ -168,7 +168,7 @@ app.get('/', function homepage(req, res) {
        db.Kingdom.findByIdAndUpdate(kindomId, {name: kingdomName,
          characteristics: kingdomCharacteristics,
          image: kingdomImage,
-         domain: domainId}, function(err, kingdom){
+         domain: domainId}, {new: true}, function(err, kingdom){
            if(err){return console.log(err);}
            db.Kingdom.findById(kingdomId)
            .populate('domain')
@@ -181,12 +181,35 @@ app.get('/', function homepage(req, res) {
  });
 
  //update domain
+  app.put('/api/domains/:id', function(req,res){
+    var domainName = req.body.name;
+    var domainCharacteristics = req.body.characteristics;
+    var domainImage = req.body.image;
+    var domainId = req.params.id;
+    db.Domain.findByIdAndUpdate(domainId, {
+        name: domainName,
+        characteristics: domainCharacteristics,
+        image: domainImage}, {new: true}, function(err, domain){
+          if(err){return console.log(err);}
+          res.json(domain);
+        })
+  });
 
  // delete kingdom
  app.delete('/api/kingdoms/:id', function (req, res) {
-
+   db.Kingdom.findByIdAndRemove(req.params.id, function(err, kingdom){
+     if(err){return console.log(err);}
+     res.json(kingdom);
+   })
  });
 
+ // delete domain
+ app.delete('/api/domains/:id', function (req, res) {
+   db.Domain.findByIdAndRemove(req.params.id, function(err, domain){
+     if(err){return console.log(err);}
+     res.json(domain);
+   })
+ });
 
 app.get('/api', function apiIndex(req, res) {
   // TODO: Document all your api endpoints below as a simple hardcoded JSON object.
