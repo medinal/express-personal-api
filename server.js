@@ -98,6 +98,47 @@ app.get('/', function homepage(req, res) {
    });
  });
 
+ //create new kingdom
+ app.post('/api/kingdoms', function(req, res){
+   var kingdomName = req.body.name;
+   var kingdomCharacteristics = req.body.characteristics;
+   var kingdomImage = req.body.image;
+   var kingdomDomain = req.body.domain;
+   var domainId;
+   var kingdomId;
+   db.Domain.find({name: kingdomDomain}, function(err, domain){
+     if(domain.length === 0 || domain === null){
+       db.Domain.create({name: kingdomDomain}, function(err, domain){
+         domainId = mongoose.Types.ObjectId(domain._id);
+         db.Kingdom.create({name: kingdomName,
+           characteristics: kingdomCharacteristics,
+           image: kingdomImage,
+           domain: domainId}, function(err, kingdom){
+             if(err){return console.log(err);}
+             db.Kingdom.findById(kingdom._id)
+              .populate('domain')
+              .exec(function(err, kingdom){
+               res.json(kingdom);
+             })
+           })
+       })
+     } else {
+       domainId = domain[0]._id;
+       db.Kingdom.create({name: kingdomName,
+         characteristics: kingdomCharacteristics,
+         image: kingdomImage,
+         domain: domainId}, function(err, kingdom){
+           if(err){return console.log(err);}
+           db.Kingdom.findById(kingdom._id)
+           .populate('domain')
+           .exec(function(err, kingdom){
+             res.json(kingdom);
+           })
+         })
+     }
+   })
+ })
+
  // update kingdom
  app.put('/api/kingdoms/:id', function(req,res){
  // get book id from url params (`req.params`)
