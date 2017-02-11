@@ -141,13 +141,49 @@ app.get('/', function homepage(req, res) {
 
  // update kingdom
  app.put('/api/kingdoms/:id', function(req,res){
- // get book id from url params (`req.params`)
-
+   var kingdomName = req.body.name;
+   var kingdomCharacteristics = req.body.characteristics;
+   var kingdomImage = req.body.image;
+   var kingdomDomain = req.body.domain;
+   var kingdomId = req.params.id;
+   var domainId;
+   db.Domain.find({name: kingdomDomain}, function(err, domain){
+     if(domain.length === 0 || domain === null){
+       db.Domain.create({name: kingdomDomain}, function(err, domain){
+         domainId = mongoose.Types.ObjectId(domain._id);
+         db.Kingdom.findByIdAndUpdate(kingdomId, {name: kingdomName,
+           characteristics: kingdomCharacteristics,
+           image: kingdomImage,
+           domain: domainId}, function(err, kingdom){
+             if(err){return console.log(err);}
+             db.Kingdom.findById(kingdomId)
+              .populate('domain')
+              .exec(function(err, kingdom){
+               res.json(kingdom);
+             })
+           })
+       })
+     } else {
+       domainId = domain[0]._id;
+       db.Kingdom.findByIdAndUpdate(kindomId, {name: kingdomName,
+         characteristics: kingdomCharacteristics,
+         image: kingdomImage,
+         domain: domainId}, function(err, kingdom){
+           if(err){return console.log(err);}
+           db.Kingdom.findById(kingdomId)
+           .populate('domain')
+           .exec(function(err, kingdom){
+             res.json(kingdom);
+           })
+         })
+     }
+   })
  });
+
+ //update domain
 
  // delete kingdom
  app.delete('/api/kingdoms/:id', function (req, res) {
-   // get book id from url params (`req.params`)
 
  });
 
