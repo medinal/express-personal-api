@@ -46,6 +46,10 @@ app.get('/', function homepage(req, res) {
  * JSON API Endpoints
  */
 
+ // app.get('/api/all', function(req, res){
+ //
+ // })
+
  // get all kingdoms
  app.get('/api/kingdoms', function (req, res) {
    // send all books as JSON response
@@ -210,6 +214,7 @@ app.get('/', function homepage(req, res) {
      res.json(domain);
    })
  });
+
 
 app.get('/api', function apiIndex(req, res) {
   // TODO: Document all your api endpoints below as a simple hardcoded JSON object.
