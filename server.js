@@ -219,7 +219,6 @@ app.get('/', function homepage(req, res) {
 
 app.get('/api', function apiIndex(req, res) {
   res.json({
-    woopsIForgotToDocumentAllMyEndpoints: false, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
     documentationUrl: "https://github.com/medinal/express_self_api/README.md",
     baseUrl: "http://secure-garden-73192.herokuapp.com", // CHANGE ME
