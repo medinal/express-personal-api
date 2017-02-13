@@ -218,17 +218,24 @@ app.get('/', function homepage(req, res) {
 
 
 app.get('/api', function apiIndex(req, res) {
-  // TODO: Document all your api endpoints below as a simple hardcoded JSON object.
-  // It would be seriously overkill to save any of this to your database.
   res.json({
-    woopsIForgotToDocumentAllMyEndpoints: true, // CHANGE ME ;)
+    woopsIForgotToDocumentAllMyEndpoints: false, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
-    documentationUrl: "https://github.com/example-username/express_self_api/README.md", // CHANGE ME
-    baseUrl: "http://YOUR-APP-NAME.herokuapp.com", // CHANGE ME
+    documentationUrl: "https://github.com/medinal/express_self_api/README.md",
+    baseUrl: "http://secure-garden-73192.herokuapp.com", // CHANGE ME
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/profile", description: "Data about me"}, // CHANGE ME
-      {method: "POST", path: "/api/campsites", description: "E.g. Create a new campsite"} // CHANGE ME
+      {method: "GET", path: "/api/profile", description: "Data about me"},
+      {method: "GET", path: "/api/kingdoms", description: "Retrieves all kingdoms"},
+      {method: "GET", path: "/api/domains", description: "Retrieves all domains"},
+      {method: "GET", path: "/api/kingdoms/:id", description: "Retrieves one kingdoms"},
+      {method: "GET", path: "/api/domains/:id", description: "Retrieves one domains"},
+      {method: "DELETE", path: "/api/kingdoms/:id", description: "Deletes one kingdoms"},
+      {method: "DELETE", path: "/api/domains/:id", description: "Deletes one domains"},
+      {method: "POST", path: "/api/kingdoms", description: "Uses the body text to create a new kingdom"},
+      {method: "POST", path: "/api/domains", description: "Uses the body text to create a new domain"},
+      {method: "PUT", path: "/api/kingdoms/:id", description: "Uses the body text to edit an existing kingdom"},
+      {method: "PUT", path: "/api/domains/:id", description: "Uses the body text to edit an existing domain"}
     ]
   })
 });
