@@ -7,7 +7,7 @@ var KingdomSchema = new Schema({
   image: {type: String, default: "#"},
   domain: {
     type: Schema.Types.ObjectId,
-    ref: 'Domain'
+    ref: 'Domain',
   },
 });
 

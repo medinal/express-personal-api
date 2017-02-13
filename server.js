@@ -169,7 +169,7 @@ app.get('/', function homepage(req, res) {
        })
      } else {
        domainId = domain[0]._id;
-       db.Kingdom.findByIdAndUpdate(kindomId, {name: kingdomName,
+       db.Kingdom.findByIdAndUpdate(kingdomId, {name: kingdomName,
          characteristics: kingdomCharacteristics,
          image: kingdomImage,
          domain: domainId}, {new: true}, function(err, kingdom){
@@ -190,6 +190,7 @@ app.get('/', function homepage(req, res) {
     var domainCharacteristics = req.body.characteristics;
     var domainImage = req.body.image;
     var domainId = req.params.id;
+    console.log(domainId);
     db.Domain.findByIdAndUpdate(domainId, {
         name: domainName,
         characteristics: domainCharacteristics,
