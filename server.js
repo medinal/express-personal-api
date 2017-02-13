@@ -220,7 +220,7 @@ app.get('/', function homepage(req, res) {
 app.get('/api', function apiIndex(req, res) {
   res.json({
     message: "Welcome to my personal api! Here's what you need to know!",
-    documentationUrl: "https://github.com/medinal/express_self_api/README.md",
+    documentationUrl: "https://github.com/medinal/express-personal-api/blob/master/README.md",
     baseUrl: "http://secure-garden-73192.herokuapp.com", // CHANGE ME
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
